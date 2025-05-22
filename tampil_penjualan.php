@@ -10,10 +10,15 @@ $sql = "SELECT f.no_faktur,
                f.ppn, 
                f.dp, 
                f.grand_total, 
-               f.user 
+               f.user, 
+               df.qty, 
+               df.price,
+               pr.nama_produk  /* Ambil nama produk dari tabel produk */
         FROM faktur f 
         JOIN customer c ON f.id_customer = c.id_customer 
-        JOIN perusahaan p ON f.id_perusahaan = p.id_perusahaan";
+        JOIN perusahaan p ON f.id_perusahaan = p.id_perusahaan 
+        JOIN detail_faktur df ON f.no_faktur = df.no_faktur
+        JOIN produk pr ON df.id_produk = pr.id_produk"; /* Gabungkan dengan tabel produk */
 $result = $conn->query($sql);
 ?>
 
@@ -42,6 +47,9 @@ $result = $conn->query($sql);
                 <th>DP</th>
                 <th>Grand Total</th>
                 <th>User</th>
+                <th>Nama Produk</th>
+                <th>Quantity</th>
+                <th>Harga</th>
                 <th>Aksi</th>
             </tr>
         </thead>
@@ -58,8 +66,11 @@ $result = $conn->query($sql);
                 <td><?php echo number_format($row['dp'], 2, ',', '.'); ?></td>
                 <td><?php echo number_format($row['grand_total'], 2, ',', '.'); ?></td>
                 <td><?php echo $row['user']; ?></td>
+                <td><?php echo $row['nama_produk']; ?></td> <!-- Hanya menampilkan nama produk -->
+                <td><?php echo $row['qty']; ?></td>
+                <td><?php echo number_format($row['price'], 2, ',', '.'); ?></td>
                 <td>
-                    <a href="cetak_faktur.php?id=<?php echo $row['no_faktur']; ?>" class="btn btn-info">Cetak Faktur</a>
+                    <a href="cetak_penjualan.php?id=<?php echo $row['no_faktur']; ?>" class="btn btn-info">Cetak Faktur</a>
                     <a href="ubah_penjualan.php?id=<?php echo $row['no_faktur']; ?>" class="btn btn-warning">Ubah</a>
                     <a href="hapus_penjualan.php?id=<?php echo $row['no_faktur']; ?>" class="btn btn-danger" onclick="return confirm('Apakah Anda yakin ingin menghapus data ini?');">Hapus</a>
                 </td>

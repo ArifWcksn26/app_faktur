@@ -41,9 +41,15 @@ $result = $conn->query($sql);
             <?php endwhile; ?>
         </tbody>
     </table>
-    <button onclick="window.print()" class="btn btn-primary no-print">Print</button>
+    <button onclick="printContent()" class="btn btn-primary no-print">Print</button>
     <a href="tampil_customer.php" class="btn btn-secondary no-print">Kembali</a>
 </div>
+
+<script>
+    function printContent() {
+        window.print();
+    }
+</script>
 
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
